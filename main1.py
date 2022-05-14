@@ -5,7 +5,7 @@ import math
 import seaborn as sns
 import random
 
-witst.echo(code_location='below'):
+with st.echo(code_location='below'):
     def degree_check(n):
         if n < 1000:
             return 1, 1
@@ -46,28 +46,28 @@ witst.echo(code_location='below'):
         daily_vacc = pd.concat([daily_vacc], ignore_index=True)
         daily_vacc.to_csv('cumsums_vaccinated.csv')
         
-        def dynamic_plot_of_vaccinations_start_function(number_of_tops, time_start_date, time_stop_date):
-            if st.button('Остановить'):
-                return
-            daily_vacc = pd.read_csv('cumsums_vaccinated.csv')
-            daily_vacc = daily_vacc.drop(columns=['Unnamed: 0'])
-            dict_of_colors = pd.read_csv('colors.csv')
-            progress_bar = st.progress(0)
-            status_bar = st.empty()
-            dict_of_colors = pd.Series(index=dict_of_colors['Unnamed: 0'], data=dict_of_colors['0'].values)
-            with st.empty():
-                for i in range(time_start_date, time_stop_date):
-                    progress_bar.progress(int(100 * (i - time_start_date) / (time_stop_date - time_start_date)))
-                    status_bar.text(f'{int(100 * (i - time_start_date) / (time_stop_date - time_start_date))}% Completed')
-                    sorted_vacc = daily_vacc.drop(columns=['Date']).loc[i].sort_values(ascending=False)[:number_of_tops]
-                    degree_clear, ten_devide = degree_check(sorted_vacc[-1])
-                    plt.xlabel(f'Величина, разделенная на 10^{degree_clear}')
-                    plt.barh(sorted_vacc.index[::-1], sorted_vacc.values[::-1] / ten_devide,
+    def dynamic_plot_of_vaccinations_start_function(number_of_tops, time_start_date, time_stop_date):
+        if st.button('Остановить'):
+            return
+        daily_vacc = pd.read_csv('cumsums_vaccinated.csv')
+        daily_vacc = daily_vacc.drop(columns=['Unnamed: 0'])
+        dict_of_colors = pd.read_csv('colors.csv')
+        progress_bar = st.progress(0)
+        status_bar = st.empty()
+        dict_of_colors = pd.Series(index=dict_of_colors['Unnamed: 0'], data=dict_of_colors['0'].values)
+        with st.empty():
+            for i in range(time_start_date, time_stop_date):
+                progress_bar.progress(int(100 * (i - time_start_date) / (time_stop_date - time_start_date)))
+                status_bar.text(f'{int(100 * (i - time_start_date) / (time_stop_date - time_start_date))}% Completed')
+                sorted_vacc = daily_vacc.drop(columns=['Date']).loc[i].sort_values(ascending=False)[:number_of_tops]
+                degree_clear, ten_devide = degree_check(sorted_vacc[-1])
+                plt.xlabel(f'Величина, разделенная на 10^{degree_clear}')
+                plt.barh(sorted_vacc.index[::-1], sorted_vacc.values[::-1] / ten_devide,
                              color=dict_of_colors.loc[sorted_vacc.index[::-1]])
-                    st.pyplot(plt, clear_figure=True)
-                progress_bar.empty()
-                status_bar.empty()
-            st.button("Re-run")
+                st.pyplot(plt, clear_figure=True)
+            progress_bar.empty()
+            status_bar.empty()
+        st.button("Re-run")
 
 
     def tourists_plot_start_function(input_countries):
