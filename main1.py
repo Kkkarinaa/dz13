@@ -13,20 +13,20 @@ with st.echo(code_location='below'):
         return a, 10**(a)
 
     def generate_colors():
-    number_of_colors = 223
-    counter = 0
-    result = []
-    while counter < number_of_colors:
-        r = requests.get('http://www.colr.org/json/colors/random/7')
-        lst = r.json()['matching_colors']
-        for color in lst:
-            if color != '' and counter < number_of_colors:
-                result.append('#' + color)
-                counter += 1
-        print('\r', end='')
-        print(f'Completed: {int((counter / number_of_colors) * 100)}%', end='')
-    print()
-    return result
+        number_of_colors = 223
+        counter = 0
+        result = []
+        while counter < number_of_colors:
+            r = requests.get('http://www.colr.org/json/colors/random/7')
+            lst = r.json()['matching_colors']
+            for color in lst:
+                if color != '' and counter < number_of_colors:
+                    result.append('#' + color)
+                    counter += 1
+            print('\r', end='')
+            print(f'Completed: {int((counter / number_of_colors) * 100)}%', end='')
+        print()
+        return result
 
 
     def create_colors_file():
